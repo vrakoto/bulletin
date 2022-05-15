@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Radio+Canada:wght@300;400&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Radio Canada', sans-serif;
+    font-weight: normal;
+}
+
+body {
+    background-color: #fbe89c;
+}
+
+.navbar {
+    text-align: center;
+    width: 500px;
+    height: 100vh;
+    background-color: #FFF;
+}
+
+.erreurs {
+    background-color: #dc3545 !important;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+}
+
+.laConnexion {
+    display: block;
+    background-color: #FFF;
+    cursor: pointer;
+    padding: 20px;
+    color: grey;
+    text-decoration: none;
+    outline: none;
+    font-size: 2rem;
+    font-weight: 100;
+}
+
+.laConnexion:not(:first-child) {
+    border-top: 1px solid #000;
+}
+
+.laConnexion:hover {
+    color: #FFF;
+    background-color: grey;
+    font-weight: normal;
+}
+
+.connexion {
+    text-align: center;
+    background-color: rgb(254, 248, 224);
+}
+
+.espaceConnexion {
+    margin: 20px 0;
+}
+
+.connexionIcon {
+    border: 2px solid #000;
+    border-radius: 50%;
+    padding: 20px;
+    font-size: 3rem;
+}
+
+/* Separateur */
+.separatorConnexion {
+    display: block;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.formConnexion {
+    margin-top: 20px;
+}
+
+.formConnexion input {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btnConnexion {
+    margin-top: 10px;
+    background-color: #0b5ed7;
+    color: #FFF;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.btnInscription {
+
+}
