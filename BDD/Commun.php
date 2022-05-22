@@ -30,4 +30,15 @@ class Commun {
 
         return $p->fetch();
     }
+
+    function getLeEtablissement(int $id): array
+    {
+        $req = "SELECT * FROM etablissement WHERE id = :id";
+        $p = $this->pdo->prepare($req);
+        $p->execute([
+            'id' => $id,
+        ]);
+
+        return $p->fetch();
+    }
 }

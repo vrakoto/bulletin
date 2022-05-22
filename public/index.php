@@ -13,7 +13,7 @@ $controller = $root . 'controller' . DIRECTORY_SEPARATOR;
 $elements = $root . 'elements' . DIRECTORY_SEPARATOR;
 $vues = $root . 'vues' . DIRECTORY_SEPARATOR;
 
-$css = 'src/main.css';
+$css = ["main.css"];
 $js = 'src/main.js';
 
 require_once $root . 'BDD' . DIRECTORY_SEPARATOR . 'Commun.php';
@@ -26,8 +26,19 @@ if ($pdo->is_connect()) {
     $nom = $pdo->getInfosUser($myID)['nom'];
     $prenom = $pdo->getInfosUser($myID)['prenom'];
     $type = $pdo->getInfosUser($myID)['type'];
+
+    switch ($type) {
+        case 'direction':
+            array_push($css, "direction.css");
+        break;
+
+        case 'professeur':
+        break;
+
+        case 'etudiant':
+        break;
+    }
 }
-require_once $elements . 'header.php';
 
 $typeAllowed = ["direction", "professeur", "etudiant"];
 if (isset($_REQUEST['type'])) {
@@ -55,6 +66,7 @@ if (isset($_REQUEST['type'])) {
     }
 }
 
+require_once $elements . 'header.php';
 
 if (!$pdo->is_connect()) {
     switch ($vue) {
@@ -71,7 +83,7 @@ if (!$pdo->is_connect()) {
             require_once $root . 'BDD' . DIRECTORY_SEPARATOR . 'Inscription.php';
             require_once $vues . 'inscription.php';
         break;
-    
+
         default:
             require_once $vues . '404.php';
         break;

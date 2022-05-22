@@ -11,16 +11,14 @@ class Connexion extends Commun {
         $this->mdp = $mdp;
     }
 
-    function verifierConnexion(): bool
+    function auth_valid(): bool
     {
-        $req = "SELECT id, mdp FROM utilisateur WHERE id = :id AND mdp = :mdp";
+        $req = "SELECT id, mdp FROM utilisateur WHERE id = :id";
         $p = $this->pdo->prepare($req);
         $p->execute([
             'id' => $this->id,
-            'mdp' => password_verify($this->mdp, $this->getInfosUser($this->id)['mdp'])
         ]);
 
-        $datas = $p->fetch();
-        return !empty($datas);
+        return !empty($p->fetch()) && password_verify($this->mdp, $this->getInfosUser($this->id)['mdp']);
     }
 }
