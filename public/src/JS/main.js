@@ -14,7 +14,7 @@ for (let i = 0; i < lesUtilisateurs.length; i++) {
     const utilisateur = lesUtilisateurs[i];
     
     utilisateur.addEventListener('click', (e) => {
-        .log(e.originalTarget);
+
     });
     
 }

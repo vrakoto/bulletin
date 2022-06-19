@@ -1,8 +1,6 @@
 <?php
     if (isset($_POST['test'])) {
         print_r( $_POST);
-    } else {
-        echo "ok";
     }
 ?>
 

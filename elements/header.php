@@ -19,11 +19,11 @@
         <div class="navbar">
             <div class="navbar-infos-user">
                 <h4><?= strtoupper($type) ?></h4>
-                <i class="<?= $avatar ?> connexionIcon avatar"></i>
+                <i class="<?= $avatar ?> icon avatar"></i>
                 <h4>ID : <?= $myID ?></h4>
                 <h4><?= $nom . ' ' . $prenom ?></h4>
 
-                <a href="index.php?p=deconnexion" class="logout">Déconnexion</a>
+                <a href="index.php?p=deconnexion" class="btn btnRed">Deconnexion</a>
             </div>
 
             <hr>
@@ -32,6 +32,11 @@
             <?php if ($type === 'direction'): ?>
                 <a class="navbar-link" href="index.php?p=creerEtablissement">Créer un établissement</a>
                 <a class="navbar-link" href="index.php?p=mesEtablissements">Mes établissements</a>
+            <?php else: if ($type === 'etudiant'): ?>
+                    <a class="navbar-link" href="index.php?p=listeEtablissements">Rejoindre un établissement</a>
+                <?php endif ?>
             <?php endif ?>
         </div>
     <?php endif ?>
+
+    <div class="containerUser">

@@ -18,7 +18,7 @@
 <div class="container">
 
     <?php if (isset($erreur)): ?>
-        <div class="erreurs">
+        <div class="messageSubmit error">
             <h3><?= $erreur ?></h3>
         </div>
     <?php endif ?>
@@ -26,7 +26,7 @@
     <div class="connexion">
         <a href="index.php"><- Revenir</a>
         <h3 class="espaceConnexion">Espace <?= ucfirst($type) ?></h3>
-        <i class="<?= $icon ?> connexionIcon"></i>
+        <i class="<?= $icon ?> icon"></i>
 
         <img class="separatorConnexion" src="src/separator.png" alt="Séparateur">
 
@@ -34,9 +34,19 @@
             <input type="text" name="id" placeholder="Identifiant" autofocus>
             <input type="password" name="mdp" placeholder="Mot de passe">
 
-            <button class="btnConnexion" type="submit">Connexion</button>
+            <button class="primary" type="submit">Connexion</button>
         </form>
         <br>
         <a class="btnInscription" href="index.php?p=inscrire&type=<?= $type ?>">M'inscrire</a>
     </div>
 </div>
+
+<?php
+    foreach ($pdo->getLesUtilisateurs() as $u) {
+        if ($type === $u['type']) {
+            echo '<br>';
+            echo $u['id'] . ' ';
+            echo $u['prenom'];
+        }
+    }
+?>

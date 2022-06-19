@@ -9,57 +9,50 @@
 
         $lesErreurs = $etablissement->verifierEtablissement();
         if (!empty($lesErreurs)) {
-            $erreurs['formulaire'] = "Erreur formulaire incorrect";
+            $erreur = "Formulaire invalide";
         } else {
             try {
                 $etablissement->modifierEtablissement($id);
                 header('Refresh:0');
                 exit();
             } catch (PDOException $th) {
-                $erreurs['pdo'] = "Impossible de modifier l'établissement, réessayez-plus târd";
+                $erreur = "Erreur interne, réessayez-plus târd";
             }
         }
     }
 ?>
 
-<div class="container">
+    <?php if (isset($erreur)) : ?>
+        <div class="center">
+            <div class="messageSubmit error">
+                <h3><i class="fa-solid fa-triangle-exclamation"></i> <?= $erreur ?></h3>
 
-    <?php if (!empty($erreurs)): ?>
-        <div class="erreurs">
-            <?php foreach ($erreurs as $erreur): ?>
-                <h3><?= $erreur ?></h3>
-                <?php if (isset($erreur['formulaire'])): ?>
-                    <ul style="list-style: inside;">
-                        <?php foreach ($lesErreurs as $e): ?>
-                        <li><?= $e ?></li>
+                <?php if (!empty($lesErreurs)): ?>
+                    <ul>
+                        <?php foreach ($lesErreurs as $erreur) : ?>
+                            <li><?= $erreur ?></li>
                         <?php endforeach ?>
                     </ul>
                 <?php endif ?>
-            <?php endforeach ?>
+            </div>
         </div>
     <?php endif ?>
 
-    <div class="cardEtablissement">
-        <h3><?= "#" . $leEtablissement['id'] ?></h3>
-        <h3><?= $leEtablissement['nom'] ?></h3>
-        <h3><?= $leEtablissement['effectif'] ?></h3>
-        <h3><?= $leEtablissement['description'] ?></h3>
-        <h3><?= $leEtablissement['dateCreation'] ?></h3>
+    <div class="center">
+        <form method="post" class="formUser">
+            <h3><?= "#" . (int)$leEtablissement['id'] ?></h3>
+            <hr>
 
-        <hr>
-        
-        <form method="post">
             <label for="nomEtablissement">Nom de l'établissement</label>
             <input type="text" name="nomEtablissement" value="<?= $leEtablissement['nom'] ?>">
 
             <label for="effectif">Effectif</label>
-            <input type="text" name="effectif" value="<?= $leEtablissement['effectif'] ?>">
+            <input type="number" name="effectif" value="<?= $leEtablissement['effectif'] ?>" step="1" min="1" max="45000">
 
             <label for="description">Description</label>
             <textarea name="description" id="description"><?= $leEtablissement['description'] ?></textarea>
 
-            <button class="btnConnexion" type="submit">Modifier</button>
+            <button class="primary" type="submit">Modifier</button>
+            <a class="btn btnRed" href="index.php?p=supprimerEtablissement&id=<?= (int)$leEtablissement['id'] ?>">Supprimer</a>
         </form>
-        <a class="btn btnConnexion suppression" href="index.php?p=supprimerEtablissement&id=<?= (int)$leEtablissement['id'] ?>">Supprimer</a>
     </div>
-</div>

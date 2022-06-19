@@ -1,0 +1,55 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+}
+
+.laConnexion {
+    display: block;
+    background-color: #FFF;
+    cursor: pointer;
+    padding: 20px;
+    color: grey;
+    text-decoration: none;
+    outline: none;
+    font-size: 2rem;
+    font-weight: 100;
+}
+
+.laConnexion:not(:first-child) {
+    border-top: 1px solid #000;
+}
+
+.laConnexion:hover {
+    color: #FFF;
+    background-color: grey;
+    font-weight: normal;
+}
+
+.connexion {
+    text-align: center;
+    background-color: rgb(254, 248, 224);
+}
+
+.espaceConnexion {
+    margin: 20px 0;
+}
+
+/* Separateur */
+.separatorConnexion {
+    display: block;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.formConnexion {
+    margin-top: 20px;
+}
+
+.formConnexion input {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}

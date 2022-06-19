@@ -13,19 +13,23 @@ $controller = $root . 'controller' . DIRECTORY_SEPARATOR;
 $elements = $root . 'elements' . DIRECTORY_SEPARATOR;
 $vues = $root . 'vues' . DIRECTORY_SEPARATOR;
 
-$css = ["main.css"];
-$js = 'src/main.js';
+$css = ["generique.css"];
+$js = 'src/JS/main.js';
 
+require_once $root . 'elements' . DIRECTORY_SEPARATOR . 'redirectHome.php';
 require_once $root . 'BDD' . DIRECTORY_SEPARATOR . 'Commun.php';
 
 $pdo = new Commun;
 
+$erreurPage = '';
 if ($pdo->is_connect()) {
     $myID = $_SESSION['id'];
     $avatar = $pdo->getInfosUser($myID)['avatar'];
     $nom = $pdo->getInfosUser($myID)['nom'];
     $prenom = $pdo->getInfosUser($myID)['prenom'];
     $type = $pdo->getInfosUser($myID)['type'];
+
+    array_push($css, "user.css");
 
     switch ($type) {
         case 'direction':
@@ -38,32 +42,8 @@ if ($pdo->is_connect()) {
         case 'etudiant':
         break;
     }
-}
-
-$typeAllowed = ["direction", "professeur", "etudiant"];
-if (isset($_REQUEST['type'])) {
-    $type = htmlentities(strtolower($_REQUEST['type']));
-    if (!in_array($type, $typeAllowed)) {
-        header("Location:index.php");
-        exit();
-    }
-
-    switch ($type) {
-        case 'direction':
-            $_SESSION['icon'] = "fas fa-user-cog";
-            $icon = $_SESSION['icon'];
-        break;
-
-        case 'professeur':
-            $_SESSION['icon'] = "fas fa-user-tie";
-            $icon = $_SESSION['icon'];
-        break;
-
-        case 'etudiant':
-            $_SESSION['icon'] = "fas fa-user-graduate";
-            $icon = $_SESSION['icon'];
-        break;
-    }
+} else {
+    array_push($css, "visitor.css");
 }
 
 require_once $elements . 'header.php';
@@ -85,7 +65,7 @@ if (!$pdo->is_connect()) {
         break;
 
         default:
-            require_once $vues . '404.php';
+            $erreurPage = 'Page introuvable';
         break;
     }
 } else {
@@ -101,7 +81,15 @@ if (!$pdo->is_connect()) {
         case 'etudiant':
             require_once $controller . 'etudiant.php';
         break;
+
+        default:
+            $erreurPage = 'Type introuvable';
+        break;
     }
+}
+
+if ($erreurPage !== '') {
+    require_once $vues . '404.php';
 }
 
 require_once $elements . 'footer.php';

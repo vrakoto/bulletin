@@ -1,55 +1,60 @@
 <?php
 if (isset($_POST['nom'], $_POST['effectif'], $_POST['description'])) {
-    $nom = htmlentities($_POST['nom']);
+    $nom = $_POST['nom'];
     $effectif = (int)$_POST['effectif'];
-    $description = htmlentities($_POST['description']);
+    $description = $_POST['description'];
 
     $etablissement = new Etablissement($nom, $effectif, $description);
     $lesErreurs = $etablissement->verifierEtablissement();
 
     if (!empty($lesErreurs)) {
-        $erreurs = TRUE;
+        $erreur = "Formulaire invalide";
     } else {
         try {
             $etablissement->creer();
-            header("Location:index.php?p=gestionEtablissement");
-            exit();
+            $success = "Etablissement créé !";
         } catch (PDOException $th) {
-            $erreur = TRUE;
-            var_dump($th->getMessage());
+            $erreur = "Erreur interne 505, veuillez réessayez plus-tard";
         }
     }
 }
 ?>
 
-<div class="container">
-
     <?php if (isset($erreur)) : ?>
-        <div class="erreurs">
-            <h3>Erreur général, veuillez réessayez plus-tard</h3>
+        <div class="center">
+            <div class="messageSubmit error">
+                <h3><i class="fa-solid fa-triangle-exclamation"></i> <?= $erreur ?></h3>
+
+                <?php if (!empty($lesErreurs)): ?>
+                    <ul>
+                        <?php foreach ($lesErreurs as $erreur) : ?>
+                            <li><?= $erreur ?></li>
+                        <?php endforeach ?>
+                    </ul>
+                <?php endif ?>
+            </div>
         </div>
     <?php endif ?>
 
-    <?php if (isset($erreurs)) : ?>
-        <div class="erreurs">
-            <h3>Erreur formulaire</h3>
-            <ul style="list-style: inside;">
-                <?php foreach ($lesErreurs as $erreur) : ?>
-                    <li><?= $erreur ?></li>
-                <?php endforeach ?>
-            </ul>
-        </div>
+    <?php if (isset($success)): ?>
+        <div class="center">
+            <div class="messageSubmit success">
+                <h3><?= $success ?></h3>
+            </div>
+        </div>   
     <?php endif ?>
 
-    <form method="post">
-        <div>
-            <input type="text" name="nom" placeholder="Nom de l'établissement" autofocus>
-        </div>
-        <div>
-            <input type="number" name="effectif" step="1" min="1" max="45000" placeholder="Effectif maximum">
-        </div>
-        <textarea name="description" placeholder="Description de l'établissement"></textarea>
+    <div class="center">
+        <form method="post" class="formUser">
+            <label for="nomEtablissement">Nom de l'établissement</label>
+            <input type="text" class="<?php if (isset($lesErreurs['nom'])): ?>invalidField<?php endif ?>" name="nom" id="nomEtablissement" placeholder="Minimum 3 caractères" value="<?php if (!isset($lesErreurs['nom'])): ?><?= $_POST['nom'] ?? '' ?><?php endif ?>" autofocus>
 
-        <button type="submit">Créer</button>
-    </form>
-</div>
+            <label for="effectif">Effectif maximum</label>
+            <input type="number" class="<?php if (isset($lesErreurs['effectif'])): ?>invalidField<?php endif ?>" name="effectif" id="effectifMaximum" step="1" min="1" max="45000" value="<?php if (!isset($lesErreurs['effectif'])): ?><?= $effectif ?? '' ?><?php endif ?>" placeholder="Maximum 45.000">
+
+            <label for="description">Description</label>
+            <textarea class="<?php if (isset($lesErreurs['description'])): ?>invalidField<?php endif ?>" name="description" id="description" placeholder="Minimum 5 caractères"><?php if (!isset($lesErreurs['description'])): ?><?= $description ?? '' ?><?php endif ?></textarea>
+
+            <button type="submit" class="primary">Créer</button>
+        </form>
+    </div>

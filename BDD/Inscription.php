@@ -1,19 +1,23 @@
 <?php
 
 class Inscription extends Commun {
+    private string $avatar;
     private string $nom;
     private string $prenom;
     private int $age;
+    private string $sexe;
     private string $type;
     private string $mdp;
     private string $mdp_c;
 
-    function __construct(string $nom, string $prenom, int $age, string $type, string $mdp, string $mdp_c)
+    function __construct(string $avatar, string $nom, string $prenom, int $age, string $sexe, string $type, string $mdp, string $mdp_c)
     {
         parent::__construct();
+        $this->avatar = $avatar;
         $this->nom = $nom;
         $this->prenom = $prenom;
         $this->age = $age;
+        $this->sexe = $sexe;
         $this->type = $type;
         $this->mdp = $mdp;
         $this->mdp_c = $mdp_c;
@@ -31,7 +35,11 @@ class Inscription extends Commun {
         }
 
         if ($this->age <= 8 || $this->age > 65) {
-            $erreurs['prenom'] = "L'âge est incorrect";
+            $erreurs['age'] = "L'âge est incorrect";
+        }
+
+        if ($this->sexe !== 'H' && $this->sexe !== 'F') {
+            $erreurs['sexe'] = "Le sexe est incorrect";
         }
 
         if (mb_strlen($this->mdp) < 3 || mb_strlen($this->mdp) > 300) {
@@ -47,12 +55,14 @@ class Inscription extends Commun {
 
     function inscrire(): bool
     {
-        $req = "INSERT INTO utilisateur (nom, prenom, age, type, mdp) VALUES (:nom, :prenom, :age, :type, :mdp)";
+        $req = "INSERT INTO utilisateur (avatar, nom, prenom, age, sexe, type, mdp) VALUES (:avatar, :nom, :prenom, :age, :sexe, :type, :mdp)";
         $p = $this->pdo->prepare($req);
         return $p->execute([
+            'avatar' => $this->avatar,
             'nom' => strtoupper($this->nom),
             'prenom' => strtolower($this->prenom),
             'age' => $this->age,
+            'sexe' => $this->sexe,
             'type' => $this->type,
             'mdp' => password_hash($this->mdp, PASSWORD_DEFAULT, ['cost' => 12])
         ]);

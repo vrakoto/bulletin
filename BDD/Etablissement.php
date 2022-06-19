@@ -21,7 +21,7 @@ class Etablissement extends Direction {
         }
 
         if ($this->effectif <= 0 || $this->effectif > 45000) {
-            $erreurs['prenom'] = "L'effectif doit être comprit entre 0 et 45,000";
+            $erreurs['effectif'] = "L'effectif doit être comprit entre 0 et 45,000";
         }
 
         if (strlen($this->description) <= 5) {
