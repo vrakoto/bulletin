@@ -1,4 +1,3 @@
-
-</div>
+<script src="<?= $js ?>"></script>
 </body>
 </html>

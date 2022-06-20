@@ -4,10 +4,16 @@
     color: rgba(255, 255, 255, .8);
     background-color: rgb(214, 59, 59);
     padding: 10px;
+    width: 100%;
 }
 
 .btnRed:hover {
     color: #FFF;
+}
+
+.logout {
+    display: inline-block;
+    width: unset;
 }
 
 
@@ -57,11 +63,16 @@
     display: flex;
     align-items: center;
     margin-top: 40px;
-    margin-left: 20px;
+    margin-left: calc(var(--spaceBetweenNavAndContent) + 30px);
+    flex-wrap: wrap;
 }
 
 .containerUser {
-    margin-left: var(--spaceBetweenNavAndContent)
+    margin-left: calc(var(--spaceBetweenNavAndContent) + 30px);
+}
+
+.containerUser.removeSpaceLeft {
+    margin-left: var(--spaceBetweenNavAndContent);
 }
 
 .formUser {
@@ -84,4 +95,21 @@
 
 .formUser input, textarea, select {
     width: 100%;
+}
+
+
+
+.iconNavigate {
+    position: absolute;
+    top: 0;
+    left: var(--spaceBetweenNavAndContent);
+    margin: 40px;
+    font-size: 2.2rem;
+    color: inherit;
+}
+
+.cardEtablissement {
+    margin-top: 20px;
+    margin-right: 20px;
+    background-color: #FFF;
 }

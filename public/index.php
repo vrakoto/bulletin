@@ -1,5 +1,12 @@
 <?php
 session_start();
+
+if (!empty($_SESSION['error'])) {
+    unset($_SESSION['error']);
+}
+if (!empty($_SESSION['success'])) {
+    unset($_SESSION['success']);
+}
 if (!isset($_REQUEST['p'])) {
     header("Location:index.php?p=accueil");
     exit();
@@ -14,7 +21,7 @@ $elements = $root . 'elements' . DIRECTORY_SEPARATOR;
 $vues = $root . 'vues' . DIRECTORY_SEPARATOR;
 
 $css = ["generique.css"];
-$js = 'src/JS/main.js';
+$js = 'src/main.js';
 
 require_once $root . 'elements' . DIRECTORY_SEPARATOR . 'redirectHome.php';
 require_once $root . 'BDD' . DIRECTORY_SEPARATOR . 'Commun.php';

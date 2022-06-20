@@ -1,15 +1,43 @@
-<?php
-    if (isset($_POST['test'])) {
-        print_r( $_POST);
-    }
-?>
+<div class="containerUser">
+    <div class="center">
+        <div method="post" class="formUser">
+            <h3><?= "#" . (int)$leEtablissement['id'] ?></h3>
+            <hr>
 
-<form class="listeUtilisateurs" method="post">
-    <div class="leUtilisateur">
-        <input type="checkbox" name="test" id="">
-        <img src="https://picsum.photos/200" alt="Avatar de l'utilisateur">
-        <h3>NOM Prénom</h3>
-        <h3>Fonction</h3>
-        <button type="submit">Test</button>
+            <label for="nomEtablissement">Nom de l'établissement</label>
+            <input type="text" name="nomEtablissement" value="<?= $nom ?>" readonly>
+
+            <label for="effectif">Effectif</label>
+            <input type="number" name="effectif" value="<?= $effectif ?>" step="1" min="1" max="45000" readonly>
+
+            <label for="description">Description</label>
+            <textarea name="description" id="description" readonly><?= $description ?></textarea>
+
+            <a href="index.php?p=etablissement&id=<?= $id ?>" class="btn primary">Consulter</a>
+        </div>
     </div>
-</form>
+
+    <hr class="spaceInAddUser">
+
+    <div class="spaceInAddUser">
+        <table>
+            <caption>Liste des utilisateurs</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Avatar</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prenom</th>
+                    <th scope="col">Classe</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="utilisateur">
+                    <td data-label="Account"><img src="https://picsum.photos/80"></td>
+                    <td data-label="Due Date">Dupont</td>
+                    <td data-label="Amount">Marc</td>
+                    <td data-label="Period">Terminale</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

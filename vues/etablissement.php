@@ -38,13 +38,15 @@
         </div>
     <?php endif ?>
 
+    <a href="index.php?p=mesEtablissements" class="iconNavigate"><i class="fa-solid fa-arrow-left"></i> Revenir</a>
+
     <div class="center">
         <form method="post" class="formUser">
             <h3><?= "#" . (int)$leEtablissement['id'] ?></h3>
             <hr>
 
             <label for="nomEtablissement">Nom de l'établissement</label>
-            <input type="text" name="nomEtablissement" value="<?= $leEtablissement['nom'] ?>">
+            <input type="text" name="nomEtablissement" value="<?= $leEtablissement['nom'] ?>" autofocus>
 
             <label for="effectif">Effectif</label>
             <input type="number" name="effectif" value="<?= $leEtablissement['effectif'] ?>" step="1" min="1" max="45000">

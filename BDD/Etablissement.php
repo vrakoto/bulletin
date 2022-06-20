@@ -16,7 +16,7 @@ class Etablissement extends Direction {
     function verifierEtablissement(): array
     {
         $erreurs = [];
-        if (strlen($this->nom) < 3) {
+        if (strlen(trim($this->nom)) < 3) {
             $erreurs['nom'] = "Le nom de l'établissement est trop court";
         }
 
@@ -24,7 +24,7 @@ class Etablissement extends Direction {
             $erreurs['effectif'] = "L'effectif doit être comprit entre 0 et 45,000";
         }
 
-        if (strlen($this->description) <= 5) {
+        if (strlen(trim($this->description)) <= 5) {
             $erreurs['description'] = "La description est trop courte";
         }
 

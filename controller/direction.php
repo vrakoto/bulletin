@@ -48,6 +48,17 @@ switch ($vue) {
 
     case 'ajouterUtilisateur':
         $idEtablissement = (int)$_REQUEST['id'];
+        try {
+            $leEtablissement = $pdo->getLeEtablissement($idEtablissement);
+            $id = (int)$leEtablissement['id'];
+            $nom = htmlentities($leEtablissement['nom']);
+            $effectif = (int)$leEtablissement['effectif'];
+            $description = htmlentities($leEtablissement['description']);
+            $dateCreation = htmlentities($leEtablissement['dateCreation']);
+        } catch (\Throwable $th) {
+            $erreurs['recup_etablissement'] = "Etablissement inexistant ou impossible de le récupérer";
+        }
+
         require_once $vuesDirection . 'ajouterUtilisateur.php';
     break;
 
