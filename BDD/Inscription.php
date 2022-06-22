@@ -46,7 +46,7 @@ class Inscription extends Commun {
             $erreurs['mdp'] = "Le mot de passe doit être supérieur à 3 caractères et inférieur à 300";
         }
 
-        if ($this->mdp_c !== $this->mdp) {
+        if ($this->mdp_c !== $this->mdp || empty($this->mdp_c)) {
             $erreurs['mdp_c'] = "Les mots de passe ne correspondent pas";
         }
 

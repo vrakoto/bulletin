@@ -69,4 +69,18 @@ class Commun {
 
         return $p->fetchAll();
     }
+
+    function getNbEleves(int $idEtablissement): int
+    {
+        $req = "SELECT count(*) as nbEleve
+                FROM etablissement
+                JOIN eleve on etablissement.id = eleve.idEtablissement
+                WHERE etablissement.id = :id";
+        $p = $this->pdo->prepare($req);
+        $p->execute([
+            'id' => $idEtablissement,
+        ]);
+
+        return $p->fetch()['nbEleve'];
+    }
 }

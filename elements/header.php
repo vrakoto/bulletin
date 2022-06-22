@@ -32,7 +32,7 @@
                 <a class="navbar-link" href="index.php?p=creerEtablissement">Créer un établissement</a>
                 <a class="navbar-link" href="index.php?p=mesEtablissements">Mes établissements</a>
             <?php else: if ($type === 'etudiant'): ?>
-                    <a class="navbar-link" href="index.php?p=listeEtablissements">Rejoindre un établissement</a>
+                    <a class="navbar-link" href="index.php?p=rejoindreEtablissement">Rejoindre un établissement</a>
                 <?php endif ?>
             <?php endif ?>
         </div>

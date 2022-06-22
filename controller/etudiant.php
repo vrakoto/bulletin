@@ -22,6 +22,11 @@ switch ($vue) {
         require_once $vues . 'etablissement.php';
     break;
 
+    case 'rejoindreEtablissement':
+        $lesEtablissements = $pdo->getLesEtablissements();
+        require_once $vuesEtudiant . 'rejoindreEtablissement.php';
+    break;
+
     case 'deconnexion':
         session_destroy();
         header("Location:index.php");

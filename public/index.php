@@ -23,8 +23,9 @@ $vues = $root . 'vues' . DIRECTORY_SEPARATOR;
 $css = ["generique.css"];
 $js = 'src/main.js';
 
-require_once $root . 'elements' . DIRECTORY_SEPARATOR . 'redirectHome.php';
-require_once $root . 'BDD' . DIRECTORY_SEPARATOR . 'Commun.php';
+require_once $elements . 'helper.php';
+require_once $elements . 'setIcon.php';
+require_once $bdd . 'Commun.php';
 
 $pdo = new Commun;
 

@@ -1,25 +1,35 @@
 <?php
+    $lesErreurs = [];
     if (isset($_POST['id'], $_POST['mdp'])) {
         $id = (int)$_POST['id'];
         $mdp = htmlentities($_POST['mdp']);
 
-        $connexion = new Connexion($id, $mdp);
+        try {
+            $connexion = new Connexion($id, $mdp);
 
-        if (!$connexion->auth_valid()) {
-            $erreur = "Authentification incorrect";
-        } else {
-            $_SESSION['id'] = $id;
-            header('Location:index.php');
-            exit();
+            if (!$connexion->auth_valid()) {
+                $lesErreurs['auth'] = "Authentification incorrect";
+            } else {
+                $_SESSION['id'] = $id;
+                header('Location:index.php');
+                exit();
+            }
+        } catch (PDOException $th) {
+            $lesErreurs['pdo'] = "Erreur interne, veuillez réessayez plus-tard";
         }
     }
 ?>
 
 <div class="container">
 
-    <?php if (isset($erreur)): ?>
+    <?php if (!empty($lesErreurs) && isset($lesErreurs)): ?>
         <div class="messageSubmit error">
-            <h3><?= $erreur ?></h3>
+            <h3>Formulaire invalide</h3>
+            <ul>
+                <?php foreach ($lesErreurs as $erreur): ?>
+                    <li><?= $erreur ?></li>
+                <?php endforeach ?>
+            </ul>
         </div>
     <?php endif ?>
 

@@ -1,4 +1,5 @@
 <?php
+$lesErreurs = [];
 if (isset($_POST['nom'], $_POST['effectif'], $_POST['description'])) {
     $nom = $_POST['nom'];
     $effectif = (int)$_POST['effectif'];
@@ -46,15 +47,9 @@ if (isset($_POST['nom'], $_POST['effectif'], $_POST['description'])) {
 
     <div class="center">
         <form method="post" class="formUser">
-            <label for="nomEtablissement">Nom de l'établissement</label>
-            <input type="text" class="<?php if (isset($lesErreurs['nom'])): ?>invalidField<?php endif ?>" name="nom" id="nomEtablissement" placeholder="Minimum 3 caractères" value="<?php if (!isset($lesErreurs['nom'])): ?><?= $_POST['nom'] ?? '' ?><?php endif ?>" autofocus>
-
-            <label for="effectif">Effectif maximum</label>
-            <input type="number" class="<?php if (isset($lesErreurs['effectif'])): ?>invalidField<?php endif ?>" name="effectif" id="effectifMaximum" step="1" min="1" max="45000" value="<?php if (!isset($lesErreurs['effectif'])): ?><?= $effectif ?? '' ?><?php endif ?>" placeholder="Maximum 45.000">
-
-            <label for="description">Description</label>
-            <textarea class="<?php if (isset($lesErreurs['description'])): ?>invalidField<?php endif ?>" name="description" id="description" placeholder="Minimum 5 caractères"><?php if (!isset($lesErreurs['description'])): ?><?= $description ?? '' ?><?php endif ?></textarea>
-
+            <?= display_error_input("Nom de l'établissement", "text", $lesErreurs, "nom", "nomEtablissement", "autofocus") ?>
+            <?= display_error_input("Effectif maximum", "number", $lesErreurs, "effectif", "effectif", "step='1' min='1' max='45000'") ?>
+            <?= display_error_input("Description", "textarea", $lesErreurs, "description", "description", "step='1' min='1' max='45000'") ?>
             <button type="submit" class="primary">Créer</button>
         </form>
     </div>
