@@ -1,24 +1,31 @@
 <?php
 
 class Connexion extends Commun {
-    private int $id;
+    private string $identifiant;
     private string $mdp;
+    private string $type;
 
-    function __construct(int $id, string $mdp)
+    function __construct(string $identifiant, string $mdp, string $type)
     {
         parent::__construct();
-        $this->id = $id;
+        $this->identifiant = $identifiant;
         $this->mdp = $mdp;
+        $this->type = $type;
     }
 
     function auth_valid(): bool
     {
-        $req = "SELECT id, mdp FROM utilisateur WHERE id = :id";
+        $req = "SELECT identifiant, type, mdp FROM utilisateur WHERE identifiant = :identifiant AND type = :type";
         $p = $this->pdo->prepare($req);
         $p->execute([
-            'id' => $this->id,
+            'identifiant' => $this->identifiant,
+            'type' => $this->type
         ]);
 
-        return !empty($p->fetch()) && password_verify($this->mdp, $this->getInfosUser($this->id)['mdp']);
+        $res = $p->fetchAll();
+        if (count($res) > 0 && password_verify($this->mdp, $res[0]['mdp'])) {
+            return TRUE;
+        }
+        return FALSE;
     }
 }

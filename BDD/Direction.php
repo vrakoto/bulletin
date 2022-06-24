@@ -1,25 +1,35 @@
 <?php
 
 class Direction extends Commun {
-    protected int $id;
+    protected string $identifiant;
 
     function __construct()
     {
         parent::__construct();
-        $this->id = $_SESSION['id'];
+        $this->identifiant = $_SESSION['identifiant'];
     }
 
     function mesEtablissements(): array
     {
-        $req = "SELECT * FROM etablissement WHERE idProprio = " . $this->id;
-        $p = $this->pdo->query($req);
+        $req = "SELECT * FROM etablissement
+                WHERE idProprio = :identifiant";
+
+        $p = $this->pdo->prepare($req);
+        $p->execute(['identifiant' => $this->identifiant]);
+
         return $p->fetchAll();
     }
 
-    function supprimerEtablissement(int $id): bool
+    function supprimerEtablissement(int $idEtablissement): bool
     {
-        $req = "DELETE FROM etablissement WHERE id = :id AND idProprio = " . $this->id;
+        $req = "DELETE FROM etablissement
+                WHERE id = :idEtablissement
+                AND idProprio = :identifiant";
+                
         $p = $this->pdo->prepare($req);
-        return $p->execute(['id' => $id]);
+        return $p->execute([
+            'idEtablissement' => $idEtablissement,
+            'identifiant' => $this->identifiant
+        ]);
     }
 }

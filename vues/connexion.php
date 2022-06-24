@@ -1,16 +1,16 @@
 <?php
     $lesErreurs = [];
-    if (isset($_POST['id'], $_POST['mdp'])) {
-        $id = (int)$_POST['id'];
+    if (isset($_POST['identifiant'], $_POST['mdp'])) {
+        $identifiant = htmlentities($_POST['identifiant']);
         $mdp = htmlentities($_POST['mdp']);
 
         try {
-            $connexion = new Connexion($id, $mdp);
+            $connexion = new Connexion($identifiant, $mdp, $type);
 
             if (!$connexion->auth_valid()) {
                 $lesErreurs['auth'] = "Authentification incorrect";
             } else {
-                $_SESSION['id'] = $id;
+                $_SESSION['identifiant'] = $identifiant;
                 header('Location:index.php');
                 exit();
             }
@@ -41,7 +41,7 @@
         <img class="separatorConnexion" src="src/separator.png" alt="Séparateur">
 
         <form class="formConnexion" method="POST">
-            <input type="text" name="id" placeholder="Identifiant" autofocus>
+            <input type="text" name="identifiant" placeholder="Identifiant" autofocus>
             <input type="password" name="mdp" placeholder="Mot de passe">
 
             <button class="primary" type="submit">Connexion</button>
@@ -55,7 +55,7 @@
     foreach ($pdo->getLesUtilisateurs() as $u) {
         if ($type === $u['type']) {
             echo '<br>';
-            echo $u['id'] . ' ';
+            echo $u['identifiant'] . ' ';
             echo $u['prenom'];
         }
     }

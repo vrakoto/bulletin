@@ -29,15 +29,25 @@
                     <th scope="col">Nom</th>
                     <th scope="col">Prenom</th>
                     <th scope="col">Classe</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
+                <?php foreach ($lesUtilisateurs as $utilisateur):
+                    $id = htmlentities($utilisateur['identifiant']);
+                    $nom = htmlentities($utilisateur['nom']);    
+                    $prenom = htmlentities($utilisateur['prenom']);    
+                ?>
                 <tr class="utilisateur">
-                    <td data-label="Account"><img src="https://picsum.photos/80"></td>
-                    <td data-label="Due Date">Dupont</td>
-                    <td data-label="Amount">Marc</td>
-                    <td data-label="Period">Terminale</td>
+                    <td><img src="https://picsum.photos/80"></td>
+                    <td><?= $utilisateur['nom'] ?></td>
+                    <td><?= $utilisateur['prenom'] ?></td>
+                    <td>???</td>
+                    <td>
+                        <a class="btn primary" href="index.php?p=utilisateur&identifiant=<?= $id ?>"><i class="fa-solid fa-folder-open"></i></a>
+                    </td>
                 </tr>
+                <?php endforeach ?>
             </tbody>
         </table>
     </div>

@@ -1,6 +1,7 @@
 <?php
     $lesErreurs = [];
-    if (isset($_POST['nom'], $_POST['prenom'], $_POST['age'], $_POST['sexe'], $_POST['mdp'], $_POST['mdp_c'])) {
+    if (isset($_POST['identifiant'], $_POST['nom'], $_POST['prenom'], $_POST['age'], $_POST['sexe'], $_POST['mdp'], $_POST['mdp_c'])) {
+        $identifiant = htmlentities($_POST['identifiant']);
         $nom = htmlentities($_POST['nom']);
         $prenom = htmlentities($_POST['prenom']);
         $age = (int)$_POST['age'];
@@ -9,7 +10,7 @@
         $mdp_c = htmlentities($_POST['mdp_c']);
 
         try {
-            $inscription = new Inscription($icon, $nom, $prenom, $age, $sexe, $type, $mdp, $mdp_c);
+            $inscription = new Inscription($icon, $identifiant, $nom, $prenom, $age, $sexe, $type, $mdp, $mdp_c);
             $lesErreurs = $inscription->verifierInscription();
 
             if (!empty($lesErreurs)) {
@@ -46,7 +47,8 @@
         <img class="separatorConnexion" src="src/separator.png" alt="Séparateur">
 
         <form class="formConnexion" method="POST">
-            <?= display_error_input('', 'text', $lesErreurs, 'nom', '', "placeholder='Nom' autofocus") ?>
+            <?= display_error_input('', 'text', $lesErreurs, 'identifiant', '', "placeholder='Identifiant' autofocus") ?>
+            <?= display_error_input('', 'text', $lesErreurs, 'nom', '', "placeholder='Nom'") ?>
             <?= display_error_input('', 'text', $lesErreurs, 'prenom', '', "placeholder='Prénom'") ?>
             <?= display_error_input('', 'number', $lesErreurs, 'age', '', "placeholder='Age' min='7' max='65'") ?>
             

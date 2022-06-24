@@ -36,7 +36,7 @@ class Etablissement extends Direction {
         $req = "INSERT INTO etablissement (idProprio, nom, effectif, description) VALUES (:idProprio, :nom, :effectif, :description)";
         $p = $this->pdo->prepare($req);
         return $p->execute([
-            'idProprio' => $this->id,
+            'idProprio' => $this->identifiant,
             'nom' => strtoupper($this->nom),
             'effectif' => $this->effectif,
             'description' => $this->description
@@ -50,7 +50,7 @@ class Etablissement extends Direction {
         $p = $this->pdo->prepare($req);
         return $p->execute([
             'id' => $id,
-            'idProprio' => $_SESSION['id'],
+            'idProprio' => $_SESSION['identifiant'],
             'nom' => strtoupper($this->nom),
             'effectif' => $this->effectif,
             'description' => $this->description

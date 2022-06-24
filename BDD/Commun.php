@@ -13,19 +13,20 @@ class Commun {
 
     function is_connect(): bool
     {
-        if (isset($_SESSION['id'])) {
+        if (isset($_SESSION['identifiant'])) {
             return TRUE;
         } else {
             return FALSE;
         }
     }
 
-    function getInfosUser(int $id): array
+    function getInfosUser(string $identifiant): array
     {
-        $req = "SELECT * FROM utilisateur WHERE id = :id";
+        $req = "SELECT * FROM utilisateur
+                WHERE identifiant = :identifiant";
         $p = $this->pdo->prepare($req);
         $p->execute([
-            'id' => $id,
+            'identifiant' => $identifiant,
         ]);
 
         return $p->fetch();
@@ -49,7 +50,8 @@ class Commun {
 
     function getLeEtablissement(int $id): array
     {
-        $req = "SELECT * FROM etablissement WHERE id = :id";
+        $req = "SELECT * FROM etablissement
+                WHERE id = :id";
         $p = $this->pdo->prepare($req);
         $p->execute([
             'id' => $id,
@@ -60,7 +62,9 @@ class Commun {
 
     function rechercherEtablissement(string $recherche): array
     {
-        $req = "SELECT id, nom, effectif, description FROM etablissement WHERE nom LIKE ? ORDER BY nom";
+        $req = "SELECT id, nom, effectif, description FROM etablissement
+                WHERE nom LIKE ?
+                ORDER BY nom";
         $param = "%$recherche%";
 
         $p = $this->pdo->prepare($req);
@@ -82,5 +86,18 @@ class Commun {
         ]);
 
         return $p->fetch()['nbEleve'];
+    }
+
+    function getEleve(string $idEleve): array
+    {
+        $req = "SELECT * FROM eleve e
+                JOIN utilisateur u on e.identifiant = u.identifiant
+                WHERE u.identifiant = :identifiant";
+        $p = $this->pdo->prepare($req);
+        $p->execute([
+            'identifiant' => $idEleve,
+        ]);
+
+        return $p->fetch();
     }
 }

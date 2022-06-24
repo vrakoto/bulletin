@@ -1,12 +1,6 @@
 <?php
 session_start();
 
-if (!empty($_SESSION['error'])) {
-    unset($_SESSION['error']);
-}
-if (!empty($_SESSION['success'])) {
-    unset($_SESSION['success']);
-}
 if (!isset($_REQUEST['p'])) {
     header("Location:index.php?p=accueil");
     exit();
@@ -31,11 +25,12 @@ $pdo = new Commun;
 
 $erreurPage = '';
 if ($pdo->is_connect()) {
-    $myID = $_SESSION['id'];
-    $avatar = $pdo->getInfosUser($myID)['avatar'];
-    $nom = $pdo->getInfosUser($myID)['nom'];
-    $prenom = $pdo->getInfosUser($myID)['prenom'];
-    $type = $pdo->getInfosUser($myID)['type'];
+    $myID = $_SESSION['identifiant'];
+    $infos = $pdo->getInfosUser($myID);
+    $avatar = $infos['avatar'];
+    $nom = $infos['nom'];
+    $prenom = $infos['prenom'];
+    $type = $infos['type'];
 
     array_push($css, "user.css");
 

@@ -2,6 +2,7 @@
 
 class Inscription extends Commun {
     private string $avatar;
+    private string $identifiant;
     private string $nom;
     private string $prenom;
     private int $age;
@@ -10,10 +11,11 @@ class Inscription extends Commun {
     private string $mdp;
     private string $mdp_c;
 
-    function __construct(string $avatar, string $nom, string $prenom, int $age, string $sexe, string $type, string $mdp, string $mdp_c)
+    function __construct(string $avatar, string $identifiant, string $nom, string $prenom, int $age, string $sexe, string $type, string $mdp, string $mdp_c)
     {
         parent::__construct();
         $this->avatar = $avatar;
+        $this->identifiant = $identifiant;
         $this->nom = $nom;
         $this->prenom = $prenom;
         $this->age = $age;
@@ -26,6 +28,11 @@ class Inscription extends Commun {
     function verifierInscription(): array
     {
         $erreurs = [];
+
+        if (strlen($this->nom) < 3) {
+            $erreurs['identifiant'] = "L'identifiant est trop court";
+        }
+
         if (strlen($this->nom) < 3) {
             $erreurs['nom'] = 'Le nom est trop court';
         }
@@ -55,10 +62,11 @@ class Inscription extends Commun {
 
     function inscrire(): bool
     {
-        $req = "INSERT INTO utilisateur (avatar, nom, prenom, age, sexe, type, mdp) VALUES (:avatar, :nom, :prenom, :age, :sexe, :type, :mdp)";
+        $req = "INSERT INTO utilisateur (avatar, identifiant, nom, prenom, age, sexe, type, mdp) VALUES (:avatar, :identifiant, :nom, :prenom, :age, :sexe, :type, :mdp)";
         $p = $this->pdo->prepare($req);
         return $p->execute([
             'avatar' => $this->avatar,
+            'identifiant' => $this->identifiant,
             'nom' => strtoupper($this->nom),
             'prenom' => strtolower($this->prenom),
             'age' => $this->age,

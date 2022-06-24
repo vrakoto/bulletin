@@ -97,7 +97,7 @@
     width: 100%;
 }
 
-.formUser.readOnly input, textarea {
+.formUser.readOnly input, .formUser.readOnly textarea {
     cursor: not-allowed;
 }
 
