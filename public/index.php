@@ -7,23 +7,28 @@ if (!isset($_REQUEST['p'])) {
 }
 $vue = $_REQUEST['p'];
 
-$root = dirname(__DIR__) . DIRECTORY_SEPARATOR;
+if (isset($_REQUEST['type'])) {
+    $type = htmlentities(strtolower($_REQUEST['type']));
+    if ($type !== 'direction' && $type !== 'professeur' && $type !== 'etudiant') {
+        header("Location:index.php?p=accueil");
+        exit();
+    }
+}
 
-$bdd = $root . 'BDD' . DIRECTORY_SEPARATOR;
-$controller = $root . 'controller' . DIRECTORY_SEPARATOR;
-$elements = $root . 'elements' . DIRECTORY_SEPARATOR;
-$vues = $root . 'vues' . DIRECTORY_SEPARATOR;
+define("ROOT", dirname(__DIR__) . DIRECTORY_SEPARATOR);
+define("BDD", ROOT . 'BDD' . DIRECTORY_SEPARATOR);
+define("CONTROLLER", ROOT .  'controller' . DIRECTORY_SEPARATOR);
+define("ELEMENTS", ROOT . 'elements' . DIRECTORY_SEPARATOR);
+define("VUES", ROOT . 'vues' . DIRECTORY_SEPARATOR);
 
 $css = ["generique.css"];
 $js = 'src/main.js';
 
-require_once $elements . 'helper.php';
-require_once $elements . 'setIcon.php';
-require_once $bdd . 'Commun.php';
+require_once ELEMENTS . 'helper.php';
+require_once BDD . 'Commun.php';
 
 $pdo = new Commun;
 
-$erreurPage = '';
 if ($pdo->is_connect()) {
     $myID = $_SESSION['identifiant'];
     $infos = $pdo->getInfosUser($myID);
@@ -49,50 +54,17 @@ if ($pdo->is_connect()) {
     array_push($css, "visitor.css");
 }
 
-require_once $elements . 'header.php';
+$erreurPage = '';
+require_once ELEMENTS . 'header.php';
 
 if (!$pdo->is_connect()) {
-    switch ($vue) {
-        case 'accueil':
-            require_once $vues . 'accueil.php';
-        break;
-    
-        case 'connexion':
-            require_once $root . 'BDD' . DIRECTORY_SEPARATOR . 'Connexion.php';
-            require_once $vues . 'connexion.php';
-        break;
-    
-        case 'inscrire':
-            require_once $root . 'BDD' . DIRECTORY_SEPARATOR . 'Inscription.php';
-            require_once $vues . 'inscription.php';
-        break;
-
-        default:
-            $erreurPage = 'Page introuvable';
-        break;
-    }
+    require_once CONTROLLER . 'visiteur.php';
 } else {
-    switch ($type) {
-        case 'direction':
-            require_once $controller . 'direction.php';
-        break;
-    
-        case 'professeur':
-            require_once $controller . 'professeur.php';
-        break;
-        
-        case 'etudiant':
-            require_once $controller . 'etudiant.php';
-        break;
-
-        default:
-            $erreurPage = 'Type introuvable';
-        break;
-    }
+    require_once CONTROLLER . 'user.php';
 }
 
-if ($erreurPage !== '') {
-    require_once $vues . '404.php';
+if (isset($userErreurPage) || isset($visitorErreurPage)) {
+    require_once VUES . '404.php';
 }
 
-require_once $elements . 'footer.php';
+require_once ELEMENTS . 'footer.php';

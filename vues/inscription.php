@@ -9,6 +9,21 @@
         $mdp = htmlentities($_POST['mdp']);
         $mdp_c = htmlentities($_POST['mdp_c']);
 
+        switch ($type) {
+            case 'direction':
+                $icon = "fas fa-user-cog";
+            break;
+    
+            case 'professeur':
+                $icon = "fas fa-user-tie";
+            break;
+
+            // Etudiant par défaut
+            default:
+                $icon = "fas fa-user-graduate";
+            break;
+        }
+
         try {
             $inscription = new Inscription($icon, $identifiant, $nom, $prenom, $age, $sexe, $type, $mdp, $mdp_c);
             $lesErreurs = $inscription->verifierInscription();
@@ -21,7 +36,11 @@
                 exit();
             }
         } catch (PDOException $th) {
-            $erreurs = "Erreur interne, veuillez réessayez plus-tard";
+            if ($th->getCode() === "23000") {
+                $erreurs = "Identifiant déjà prit, veuillez choisir un autre";
+            } else {
+                $erreurs = "Erreur interne, veuillez réessayez plus-tard";
+            }
         }
     }
 ?>
@@ -42,7 +61,6 @@
     <div class="connexion">
         <a href="index.php?p=connexion&type=<?= $type ?>"><- Revenir</a>
         <h3 class="espaceConnexion">Inscription <?= ucfirst($type) ?></h3>
-        <i class="<?= $icon ?> icon"></i>
 
         <img class="separatorConnexion" src="src/separator.png" alt="Séparateur">
 

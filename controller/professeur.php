@@ -13,6 +13,6 @@ switch ($vue) {
     break;
     
     default:
-        # code...
+        $erreurPage = $vue;
     break;
 }

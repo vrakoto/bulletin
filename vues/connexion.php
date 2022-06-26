@@ -36,7 +36,6 @@
     <div class="connexion">
         <a href="index.php"><- Revenir</a>
         <h3 class="espaceConnexion">Espace <?= ucfirst($type) ?></h3>
-        <i class="<?= $icon ?> icon"></i>
 
         <img class="separatorConnexion" src="src/separator.png" alt="Séparateur">
 
