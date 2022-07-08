@@ -16,30 +16,52 @@ switch ($type) {
 $commun = '';
 switch ($vue) {
     case 'etablissement':
-        $idEtablissement = (int)$_REQUEST['id'];
-        try {
-            $leEtablissement = $pdo->getLeEtablissement($idEtablissement);
-        } catch (PDOException $th) {
-            $erreurInterne = "Etablissement inexistant ou impossible de le récupérer";
+        if (isset($_REQUEST['id'])) {
+            $idEtablissement = (int)$_REQUEST['id'];
+            try {
+                $leEtablissement = $pdo->getLeEtablissement($idEtablissement);
+            } catch (\Throwable $th) {
+                $erreurInterne = "Etablissement inexistant";
+            }
+        } else {
+            header('Location:index.php?p=listeEtablissements');
+            exit();
         }
-        require_once VUES . 'etablissement.php';
+
+        if (isset($erreurInterne)) {
+            require_once VUES . '505.php';
+        } else {
+            require_once VUES_USER . 'etablissement.php';
+        }
+    break;
+
+    case 'listeEtablissements':
+        $lesEtablissements = $pdo->getLesEtablissements();
+        require_once VUES_USER . 'listeEtablissements.php';
     break;
 
     case 'listeUtilisateurs':
-        $idEtablissement = (int)$_REQUEST['id'];
-        try {
-            $leEtablissement = $pdo->getLeEtablissement($idEtablissement);
-            $lesUtilisateurs = $pdo->getLesUtilisateurs();
-            $id = (int)$leEtablissement['id'];
-            $nom = htmlentities($leEtablissement['nom']);
-            $effectif = (int)$leEtablissement['effectif'];
-            $description = htmlentities($leEtablissement['description']);
-            $dateCreation = htmlentities($leEtablissement['dateCreation']);
-        } catch (\Throwable $th) {
-            $erreurs['recup_etablissement'] = "Erreur interne, veuillez réessayez plus-tard";
+        $lesUtilisateurs = $pdo->getLesUtilisateurs();
+
+        if (isset($_REQUEST['idEtablissement'])) {
+            $idEtablissement = (int)$_REQUEST['idEtablissement'];
+            try {
+                $leEtablissement = $pdo->getLeEtablissement($idEtablissement);
+                $id = (int)$leEtablissement['id'];
+                $nom = htmlentities($leEtablissement['nom']);
+                $effectif = (int)$leEtablissement['effectif'];
+                $description = htmlentities($leEtablissement['description']);
+                $dateCreation = htmlentities($leEtablissement['dateCreation']);
+            } catch (\Throwable $th) {
+                $erreurInterne = "Etablissement introuvable";
+            }
         }
 
-        require_once VUES . 'listeUtilisateurs.php';
+        if (isset($erreurInterne)) {
+            require_once VUES . '404.php';
+        } else {
+            require_once VUES_USER . 'listeUtilisateurs.php';
+        }
     break;
 
     case 'utilisateur':
@@ -68,11 +90,11 @@ switch ($vue) {
                     $erreur = "Cet utilisateur n'est rattaché à aucune catégorie";
                 break;
             }
-        } catch (PDOException $th) {
+        } catch (\Throwable $th) {
             $erreur = "Impossible de récupérer les informations de l'utilisateur";
         }
 
-        require_once VUES . 'ficheUtilisateur.php';
+        require_once VUES_USER . 'ficheUtilisateur.php';
     break;
 
     case 'deconnexion': 

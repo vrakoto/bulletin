@@ -8,13 +8,13 @@
             $connexion = new Connexion($identifiant, $mdp, $type);
 
             if (!$connexion->auth_valid()) {
-                $lesErreurs['auth'] = "Authentification incorrect";
+                $lesErreurs['titre'] = "Authentification incorrect";
             } else {
                 $_SESSION['identifiant'] = $identifiant;
                 header('Location:index.php');
                 exit();
             }
-        } catch (PDOException $th) {
+        } catch (\Throwable $th) {
             $lesErreurs['pdo'] = "Erreur interne, veuillez réessayez plus-tard";
         }
     }
@@ -22,16 +22,7 @@
 
 <div class="container">
 
-    <?php if (!empty($lesErreurs) && isset($lesErreurs)): ?>
-        <div class="messageSubmit error">
-            <h3>Formulaire invalide</h3>
-            <ul>
-                <?php foreach ($lesErreurs as $erreur): ?>
-                    <li><?= $erreur ?></li>
-                <?php endforeach ?>
-            </ul>
-        </div>
-    <?php endif ?>
+    <?php require_once VUES_ERREUR ?>
 
     <div class="connexion">
         <a href="index.php"><- Revenir</a>

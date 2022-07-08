@@ -4,7 +4,7 @@
     </div>
 <?php else:?>
 
-<div class="containerListe">
+<div class="containerCard">
 
     <?php if (count($mesEtablissements) <= 0): ?>
         <a href="index.php?p=creerEtablissement">Aucun établissement à votre nom, créez-en un dès maintenant !</a>
@@ -25,7 +25,7 @@
             <h3><?= $dateCreation ?></h3>
 
             <div class="actions">
-                <a href="index.php?p=listeUtilisateurs&id=<?= $id ?>"><i class="fa-solid fa-user-plus" style="color: green;"></i></a>
+                <a href="index.php?p=listeUtilisateurs&idEtablissement=<?= $id ?>"><i class="fa-solid fa-user-plus" style="color: green;"></i></a>
                 <a href="index.php?p=etablissement&id=<?= $id ?>"><i class="fa-solid fa-file-pen"></i></i></a>
                 <a href="index.php?p=supprimerEtablissement&id=<?= $id ?>"><i class="fa-solid fa-trash" style="color: red"></i></a>
             </div>

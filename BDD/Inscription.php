@@ -25,12 +25,29 @@ class Inscription extends Commun {
         $this->mdp_c = $mdp_c;
     }
 
+    function identifiantExistant(): bool
+    {
+        $req = "SELECT identifiant FROM utilisateur
+                WHERE identifiant = :identifiant";
+        $p = $this->pdo->prepare($req);
+        $p->execute([
+            'identifiant' => $this->identifiant,
+        ]);
+
+        $resultats = $p->fetchAll();
+        return !empty($resultats);
+    }
+
     function verifierInscription(): array
     {
         $erreurs = [];
 
-        if (strlen($this->nom) < 3) {
+        if (strlen($this->identifiant) < 3) {
             $erreurs['identifiant'] = "L'identifiant est trop court";
+        }
+        
+        if ($this->identifiantExistant()) {
+            $erreurs['identifiant'] = "L'identifiant est déjà prit";
         }
 
         if (strlen($this->nom) < 3) {

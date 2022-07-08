@@ -55,3 +55,50 @@ function display_error_input(string $labelTitle, string $typeInput, array $varEr
     $textAreaElement
 HTML;
 }
+
+
+/**
+ * nav_links
+ *
+ * @param  string $link
+ * Le lien qui correspond directement à un controller sans les caractères spéciaux
+ * 
+ * @param  string $title
+ * Le titre référent le lien
+ * 
+ * @return string
+ */
+function nav_links(string $link, string $title): string
+{
+    $active = '';
+    $currentLinkController = str_replace('p=', '', $_SERVER['QUERY_STRING']);
+
+    if (str_contains($currentLinkController, $link)) {
+        $active = " navbar-link-active";
+    }
+    return <<<HTML
+    <a class="navbar-link $active" href="/index.php?p=$link">$title</a>
+HTML;
+}
+
+/**
+ * format_date
+ *
+ * @param  string $date
+ * Correspond à la date en string
+ * 
+ * @param  bool $enableTime
+ * Active ou non l'heure
+ * 
+ * @return string
+ */
+function format_date(string $date = null, bool $enableTime = FALSE): string
+{
+    $d = new DateTime($date);
+    $dt = '';
+
+    if ($enableTime === TRUE) {
+        $dt = "H:m";
+    }
+    return $d->format("d/m/Y ". $dt);
+}

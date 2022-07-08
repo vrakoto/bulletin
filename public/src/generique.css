@@ -39,7 +39,7 @@ textarea {
 }
 .messageSubmit h3 {
     text-align: center;
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 .messageSubmit ul {
     list-style: inside;

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php foreach ($css as $c): ?>
+    <?php foreach ($css as $c) : ?>
         <link rel="stylesheet" href="src/<?= $c ?>">
     <?php endforeach ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -15,7 +15,7 @@
 
 <body>
     <?php if ($pdo->is_connect()) : ?>
-        <div class="navbar">
+        <nav class="navbar">
             <div class="navbar-infos-user">
                 <h4><?= strtoupper($type) ?></h4>
                 <i class="<?= $avatar ?> icon avatar"></i>
@@ -26,14 +26,21 @@
             </div>
 
             <hr>
-            <h2 class="navbar-menu-title">Menu</h2>
+            <div class="menu-links">
+                <h2 class="navbar-menu-links-title">Menu</h2>
 
-            <?php if ($type === 'direction'): ?>
-                <a class="navbar-link" href="index.php?p=creerEtablissement">Créer un établissement</a>
-                <a class="navbar-link" href="index.php?p=mesEtablissements">Mes établissements</a>
-            <?php else: if ($type === 'etudiant'): ?>
-                    <a class="navbar-link" href="index.php?p=rejoindreEtablissement">Rejoindre un établissement</a>
-                <?php endif ?>
-            <?php endif ?>
-        </div>
+                <div class="navbar-links">
+                    <?php if ($type === 'direction') : ?>
+                        <?= nav_links("creerEtablissement", "Créer un établissement") ?>
+                        <?= nav_links("mesEtablissements", "Mes établissements") ?>
+                        <?= nav_links("listeEtablissements", "Liste des établissements") ?>
+                        <?= nav_links("listeUtilisateurs", "Liste des utilisateurs") ?>
+                        <?php else : if ($type === 'etudiant') : ?>
+                            <?= nav_links("listeEtablissements", "Rejoindre un établissement") ?>
+                        <?php endif ?>
+                    <?php endif ?>
+                </div>
+            </div>
+        </nav>
+        <div class="containerUser">
     <?php endif ?>

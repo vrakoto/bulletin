@@ -29,17 +29,17 @@
             $lesErreurs = $inscription->verifierInscription();
 
             if (!empty($lesErreurs)) {
-                $erreurs = "Formulaire invalide";
+                $lesErreurs['titre'] = "Formulaire invalide";
             } else {
                 $inscription->inscrire();
                 header('Location:index.php?p=connexion&type=' . $type);
                 exit();
             }
-        } catch (PDOException $th) {
+        } catch (\Throwable $th) {
             if ($th->getCode() === "23000") {
-                $erreurs = "Identifiant déjà prit, veuillez choisir un autre";
+                $lesErreurs['identifiant'] = "Identifiant déjà prit, veuillez choisir un autre";
             } else {
-                $erreurs = "Erreur interne, veuillez réessayez plus-tard";
+                $lesErreurs['pdo'] = "Erreur interne, veuillez réessayez plus-tard";
             }
         }
     }
@@ -47,16 +47,7 @@
 
 <div class="container">
 
-    <?php if (isset($erreurs)): ?>
-    <div class="messageSubmit error">
-        <h3><?= $erreurs ?></h3>
-        <ul>
-            <?php foreach ($lesErreurs as $erreur): ?>
-                <li><?= $erreur ?></li>
-            <?php endforeach ?>
-        </ul>
-    </div>
-    <?php endif ?>
+    <?php require_once VUES_ERREUR ?>
 
     <div class="connexion">
         <a href="index.php?p=connexion&type=<?= $type ?>"><- Revenir</a>

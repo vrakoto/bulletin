@@ -19,7 +19,9 @@ define("ROOT", dirname(__DIR__) . DIRECTORY_SEPARATOR);
 define("BDD", ROOT . 'BDD' . DIRECTORY_SEPARATOR);
 define("CONTROLLER", ROOT .  'controller' . DIRECTORY_SEPARATOR);
 define("ELEMENTS", ROOT . 'elements' . DIRECTORY_SEPARATOR);
+define("VUES_ERREUR", ELEMENTS . 'parts' . DIRECTORY_SEPARATOR . 'erreurSubmit.php');
 define("VUES", ROOT . 'vues' . DIRECTORY_SEPARATOR);
+define("VUES_USER", ROOT . 'vues' . DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR);
 
 $css = ["generique.css"];
 $js = 'src/main.js';

@@ -62,7 +62,7 @@ class Commun {
 
     function rechercherEtablissement(string $recherche): array
     {
-        $req = "SELECT id, nom, effectif, description FROM etablissement
+        $req = "SELECT * FROM etablissement
                 WHERE nom LIKE ?
                 ORDER BY nom";
         $param = "%$recherche%";
